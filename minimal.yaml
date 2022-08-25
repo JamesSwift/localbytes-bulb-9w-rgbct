@@ -22,6 +22,3 @@ wifi:
     ssid: "${friendly_name}"
   
 captive_portal:
-
-dashboard_import:
-  package_import_url: github://JamesSwift/localbytes-bulb-9w-rgbct/localbytes-bulb-9w-rgbct.yaml
