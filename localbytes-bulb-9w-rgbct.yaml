@@ -1,0 +1,148 @@
+substitutions:
+  name: "localbytes-bulb-9w-rgbct"
+  friendly_name: "Local Bytes RGBCT Bulb"
+
+esphome:
+  name: "${name}"
+  name_add_mac_suffix: true
+  project:
+    name: jamesswift.localbytes-bulb-9w-rgbct
+    version: "0.0.1"
+  on_boot:
+    priority: 600
+    then:
+      lambda: |-
+        id(red).set_max_power(id(red_max).state/100);
+        id(green).set_max_power(id(green_max).state/100);
+        id(blue).set_max_power(id(blue_max).state/100);
+        
+esp8266:
+  board: esp8285
+  restore_from_flash: true
+
+logger:
+
+ota:
+
+api:
+
+wifi:
+  output_power: 14db
+  power_save_mode: light
+  ap:
+    ssid: "${friendly_name}"
+
+web_server:
+  port: 80
+  
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://JamesSwift/localbytes-bulb-9w-rgbct/localbytes-bulb-9w-rgbct.yaml
+
+light:
+  - platform: rgbct
+    name: "${friendly_name}"
+    id: bulb
+    restore_mode: RESTORE_DEFAULT_ON
+    color_temperature: color_temperature
+    white_brightness: white_brightness
+    red: red
+    green: green
+    blue: blue
+    
+    cold_white_color_temperature: 153 mireds
+    warm_white_color_temperature: 500 mireds
+    
+    color_interlock: true
+    
+    effects:
+      random:
+
+output:
+  - platform: esp8266_pwm
+    id: color_temperature
+    pin: GPIO5
+    
+  - platform: esp8266_pwm
+    id: white_brightness
+    pin: GPIO13
+    
+  - platform: esp8266_pwm
+    id: red
+    pin: GPIO4
+    
+  - platform: esp8266_pwm
+    id: green
+    pin: GPIO12
+    
+  - platform: esp8266_pwm
+    id: blue
+    pin: GPIO14
+      
+number:
+  - platform: template
+    optimistic: true
+    restore_value: true
+    name: "${friendly_name} Red Max Power"
+    id: red_max
+    icon: "mdi:lightbulb-question"
+    min_value: 0
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    initial_value: 100
+    on_value:
+      lambda: |-
+        id(red).set_max_power(x/100);
+        ESP_LOGI("light", "Set red max power to: %f", id(red).get_max_power());
+        auto call = id(bulb).toggle();
+        call.perform();
+        call = id(bulb).toggle();
+        call.perform();
+
+  - platform: template
+    optimistic: true
+    restore_value: true
+    name: "${friendly_name} Green Max Power"
+    id: green_max
+    icon: "mdi:lightbulb-question"
+    min_value: 0
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    initial_value: 100
+    on_value:
+      lambda: |-
+        id(green).set_max_power(x/100);
+        ESP_LOGI("light", "Set green max power to: %f", id(green).get_max_power());
+        auto call = id(bulb).toggle();
+        call.perform();
+        call = id(bulb).toggle();
+        call.perform();
+    
+  - platform: template
+    optimistic: true
+    restore_value: true
+    name: "${friendly_name} Blue Max Power"
+    id: blue_max
+    icon: "mdi:lightbulb-question"
+    min_value: 0
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    initial_value: 100
+    on_value:
+      lambda: |-
+        id(blue).set_max_power(x/100);
+        ESP_LOGI("light", "Set blue max power to: %f", id(blue).get_max_power());
+        auto call = id(bulb).toggle();
+        call.perform();
+        call = id(bulb).toggle();
+        call.perform();
+   
+sensor:
+  # WiFi Signal Sensor
+  - platform: wifi_signal
+    name: "${friendly_name} WiFi Status"
+    update_interval: 60s
