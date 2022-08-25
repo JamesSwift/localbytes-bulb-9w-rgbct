@@ -7,7 +7,7 @@ esphome:
   name_add_mac_suffix: true
   project:
     name: jamesswift.localbytes-bulb-9w-rgbct
-    version: "0.0.1"
+    version: "0.0.2"
   on_boot:
     priority: 600
     then:
@@ -41,33 +41,25 @@ dashboard_import:
   package_import_url: github://JamesSwift/localbytes-bulb-9w-rgbct/localbytes-bulb-9w-rgbct.yaml
 
 light:
-  - platform: rgbct
+  - platform: rgbww
     name: "${friendly_name}"
     id: bulb
     restore_mode: RESTORE_DEFAULT_ON
-    color_temperature: color_temperature
-    white_brightness: white_brightness
+    warm_white: warm_white
+    cold_white: white
     red: red
     green: green
     blue: blue
     
-    cold_white_color_temperature: 153 mireds
-    warm_white_color_temperature: 500 mireds
-    
+    cold_white_color_temperature: 6000 K
+    warm_white_color_temperature: 3000 K
     color_interlock: true
     
     effects:
       random:
 
+#4, 5, 12, 13, 14
 output:
-  - platform: esp8266_pwm
-    id: color_temperature
-    pin: GPIO5
-    
-  - platform: esp8266_pwm
-    id: white_brightness
-    pin: GPIO13
-    
   - platform: esp8266_pwm
     id: red
     pin: GPIO4
@@ -79,6 +71,14 @@ output:
   - platform: esp8266_pwm
     id: blue
     pin: GPIO14
+    
+  - platform: esp8266_pwm
+    id: white
+    pin: GPIO5
+    
+  - platform: esp8266_pwm
+    id: warm_white
+    pin: GPIO13
       
 number:
   - platform: template
