@@ -4,10 +4,11 @@ substitutions:
 
 esphome:
   name: "${name}"
+  friendly_name: "${friendly_name}"
   name_add_mac_suffix: true
   project:
     name: jamesswift.localbytes-bulb-9w-rgbct
-    version: "0.0.3"
+    version: "0.0.4"
   on_boot:
     priority: 600
     then:
@@ -42,7 +43,7 @@ dashboard_import:
 
 light:
   - platform: rgbww
-    name: "${friendly_name}"
+    name: ""
     id: bulb
     restore_mode: ALWAYS_ON
     warm_white: warm_white
@@ -84,7 +85,7 @@ number:
   - platform: template
     optimistic: true
     restore_value: true
-    name: "${friendly_name} Red Max Power"
+    name: "Red Max Power"
     id: red_max
     icon: "mdi:lightbulb-question"
     min_value: 0
@@ -104,7 +105,7 @@ number:
   - platform: template
     optimistic: true
     restore_value: true
-    name: "${friendly_name} Green Max Power"
+    name: "Green Max Power"
     id: green_max
     icon: "mdi:lightbulb-question"
     min_value: 0
@@ -124,7 +125,7 @@ number:
   - platform: template
     optimistic: true
     restore_value: true
-    name: "${friendly_name} Blue Max Power"
+    name: "Blue Max Power"
     id: blue_max
     icon: "mdi:lightbulb-question"
     min_value: 0
@@ -144,5 +145,5 @@ number:
 sensor:
   # WiFi Signal Sensor
   - platform: wifi_signal
-    name: "${friendly_name} WiFi Status"
+    name: "WiFi Status"
     update_interval: 60s
