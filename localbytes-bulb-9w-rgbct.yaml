@@ -8,7 +8,7 @@ esphome:
   name_add_mac_suffix: true
   project:
     name: jamesswift.localbytes-bulb-9w-rgbct
-    version: "0.0.4"
+    version: "0.1.0"
   on_boot:
     priority: 600
     then:
@@ -43,7 +43,7 @@ dashboard_import:
 
 light:
   - platform: rgbww
-    name: ""
+    name: none
     id: bulb
     restore_mode: ALWAYS_ON
     warm_white: warm_white
@@ -56,8 +56,46 @@ light:
     warm_white_color_temperature: 3000 K
     color_interlock: true
     
+    
     effects:
-      random:
+      - random:
+      - strobe:
+      - pulse:
+      - flicker:
+      - strobe:
+          name: Police
+          colors:
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 100%
+              green: 0%
+              blue: 0%
+              duration: 700ms
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 0%
+              green: 0%
+              blue: 100%
+              duration: 700ms
+      - strobe:
+          name: Police Fast
+          colors:
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 100%
+              green: 0%
+              blue: 0%
+              duration: 300ms
+            - state: true
+              color_mode: RGB
+              brightness: 100%
+              red: 0%
+              green: 0%
+              blue: 100%
+              duration: 300ms
 
 #4, 5, 12, 13, 14
 output:
